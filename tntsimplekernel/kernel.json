@@ -1,3 +1,4 @@
-{"argv":["python","-m","tntsimplekernel", "-f", "{connection_file}"],
- "display_name":"NTNSimple"
+{"argv":["python3","-m","tntsimplekernel", "-f", "{connection_file}"],
+ "display_name":"TNTSimple",
+  "language":"lua"
 }

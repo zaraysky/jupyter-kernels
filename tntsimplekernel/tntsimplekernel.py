@@ -1,5 +1,6 @@
 from ipykernel.kernelbase import Kernel
 import tarantool
+import json
 
 from tarantool.error import DatabaseError
 
@@ -16,14 +17,6 @@ class TNTSimpleKernel(Kernel):
 
     banner = "TNT Simple kernel"
 
-    # def __init__(self):
-    #     self.connection = tarantool.connect(
-    #                                      host='localhost',
-    #                                      port=3300,
-    #                                      user=None,
-    #                                      password=None,
-    #                                      encoding=None)
-
     def do_execute(self, code, silent, store_history=True, user_expressions=None,
                    allow_stdin=False):
 
@@ -33,14 +26,24 @@ class TNTSimpleKernel(Kernel):
                 port=3300,
                 user='guest')
             connection.connect()
-            try:
-                response = connection.eval(code)
-            except DatabaseError:
-                response = 'Exception raised: Database Error'
 
-            stream_content = {'name': 'stdout', 'text': str(response)}
-            self.send_response(self.iopub_socket, 'stream', stream_content)
+            response = connection.eval(f"""
+            local f = loadstring([[{code}]])
+            local status, err = pcall(f)
+
+            return status, err""")
+
             connection.close()
+
+            success, result = response._data
+
+            if isinstance(result, dict):
+                output = json.dumps(response._data[1], indent=4, sort_keys=True)
+            else:
+                output = f'{type(result)} : {result}' if success else f'Error: {result}'
+
+            stream_content = {'name': 'stdout', 'text': output}
+            self.send_response(self.iopub_socket, 'stream', stream_content)
 
         return {'status': 'ok',
                 # The base class increments the execution count
