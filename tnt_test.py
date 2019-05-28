@@ -1,20 +1,37 @@
-import tarantool
-import pprint
-import json
+import selectors
+import socket
 
-connection = tarantool.connect(
-    host='localhost',
-    port=3300,
-    user='guest')
-cmd = 'arr = {a = 1; b=2}; return arr'
+CHUNK_LENGTH = 1024
 
-response = connection.eval(f"""
-local f = loadstring([[{cmd}]])
-local status, err = pcall(f)
+HOST = "127.0.0.1"  # The server's hostname or IP address
+PORT = 3312  # The port used by the server
 
-return status, err""")
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect_ex((HOST, PORT))
+    _buffer = ''
+    while True:
+        try:
+            data = s.recv(CHUNK_LENGTH)
+            _buffer += data.decode()
+            if len(data) > CHUNK_LENGTH:
+                continue
+            else:
+                print("Received", str(_buffer))
+                _buffer = ''
+                command = input('Enter command or press Ctrl-C\n> ')
+                s.sendall((command+'\n').encode())
 
-print(json.dumps(response._data[1], indent=4, sort_keys=True))
+        except KeyboardInterrupt:
+            print('BYEBYE')
+            break
 
-connection.close()
+    # s.sendall(b"Hello, world")
+    # data = s.recv(1024)
 
+    print("Received", str(_buffer))
+    # print("Received1", repr(data), len(data))
+    # if len(data) < 1024:
+    #     s.send("help\n".encode('utf-8'))
+    #     data = s.recv(1024)
+    #     print("Received2", repr(data), len(data))
+#
