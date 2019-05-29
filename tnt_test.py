@@ -16,13 +16,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             if len(data) > CHUNK_LENGTH:
                 continue
             else:
-                print("Received", str(_buffer))
+                print(f"Received>>>{str(_buffer)}<<<")
+                strings = _buffer.split('\n')
+
+                [print(f'>>{s}<<') for s in strings]
                 _buffer = ''
                 command = input('Enter command or press Ctrl-C\n> ')
                 s.sendall((command+'\n').encode())
 
         except KeyboardInterrupt:
-            print('BYEBYE')
+            print('\nBYEBYE')
             break
 
     # s.sendall(b"Hello, world")

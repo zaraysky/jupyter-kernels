@@ -1,3 +1,6 @@
+from .config import CHUNK_LENGTH, HOST, PORT, START_OF_RESPONSE, START_OF_STRING, END_OF_RESPONSE
+
+
 class TNTCodeParser:
     def __init__(self):
         self.code = ''
@@ -10,3 +13,4 @@ class TNTCodeParser:
             new_lines = lines[1:]
             new_lines.append(top_line[3:])
         return '\n'.join(lines)
+
