@@ -1,0 +1,767 @@
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s = box.schema.space.create('hello', {if_not_exists=true})
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:format {
+    {name = 'id', type = 'unsigned'},
+    {name = 'band_name', type = 'string'},
+    {name = 'year', type = 'unsigned'}
+}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('primary', {
+    type = 'hash',
+    parts = {'id'}
+    }
+)
+INFO:root:- unique: true
+  parts:
+  - type: unsigned
+    is_nullable: false
+    fieldno: 1
+  id: 0
+  space_id: 514
+  name: primary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:insert{1, 'Roxette', 1986}
+s:insert{2, 'Scorpions', 2015}
+s:insert{3, 'Ace of Base', 1993}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result = s:select{2}
+result
+INFO:root:- error: '[string "result = s:select{2} result"]:1: ''='' expected near ''<eof>'''
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result = s:select{2}
+
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result
+INFO:root:- - [2, 'Scorpions', 2015]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result = s:select{2}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result
+INFO:root:- - [2, 'Scorpions', 2015]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result = s:select{1}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result
+INFO:root:- - [1, 'Roxette', 1986]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:drop()
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+result = sp.index.secondary:select({'X'}, {
+          iterator = 'GT',
+          limit = 1000
+          })
+return result
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+result = sp.index.secondary:select({'X'}, {
+          iterator = 'GT',
+          limit = 1000
+          })
+
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result
+INFO:root:- - [1, 'Roxette', 1986]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+result = sp.index.secondary:select({'X'}, {
+          iterator = 'GT',
+          limit = 1000
+          })
+
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result
+INFO:root:- - [1, 'Roxette', 1986]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+result2 = sp.index.secondary:select({'X'}, {
+          iterator = 'GT',
+          limit = 1000
+          })
+
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result2
+INFO:root:- null
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+result2 = sp.index.secondary:select({'X'}, {
+          iterator = 'GE',
+          limit = 1000
+          })
+
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result2
+INFO:root:- null
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result2 = sp.index.secondary:select({'X'}, {
+          iterator = 'GE',
+          limit = 1000
+          })
+INFO:root:- error: '[string "result2 = sp.index.secondary:select({''X''}, { ..."]:1: attempt
+    to index global ''sp'' (a nil value)'
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp
+INFO:root:- null
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp = box.schema.space.create('tester')
+INFO:root:- error: Space 'tester' already exists
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp
+INFO:root:- null
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp = box.schema.space.create('tester', {if_not_exists=true})
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp
+INFO:root:- engine: memtx
+  before_replace: 'function: 0x0103a15858'
+  on_replace: 'function: 0x0103a15820'
+  field_count: 0
+  temporary: false
+  index:
+    0: &0
+      unique: true
+      parts:
+      - type: unsigned
+        is_nullable: false
+        fieldno: 1
+      id: 0
+      space_id: 513
+      name: primary
+      type: TREE
+    primary: *0
+  is_local: false
+  enabled: true
+  name: tester
+  id: 513
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sq(x)
+return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sq(2)
+INFO:root:- 4
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp = box.schema.space.create('tester')
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+
+INFO:root:- error: Space 'tester' already exists
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a=1
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sqr(x)
+    return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a = 2
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sqr(a)
+INFO:root:- 4
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:help
+INFO:root:- - To get help, see the Tarantool manual at http://tarantool.org/doc/
+  - To start the interactive Tarantool tutorial, type 'tutorial()'
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s = box.schema.space.create('hello', {if_not_exists=true})
+INFO:root:- error: '[string "s = box.schema.space.create(''hello'', {if_not_..."]:1: '')'' expected
+    near ''<eof>'''
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a=1
+INFO:root:- error: '[string "a="]:1: unexpected symbol near ''<eof>'''
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a=1
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sqr(x)
+    return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a = 2
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sqr(a)
+INFO:root:- 4
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:help
+INFO:root:- - To get help, see the Tarantool manual at http://tarantool.org/doc/
+  - To start the interactive Tarantool tutorial, type 'tutorial()'
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a
+INFO:root:- 2
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:-- this is comment
+x = 11
+y = 12
+
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x + y
+INFO:root:- error: '[string "return x + y"]:1: attempt to perform arithmetic on global ''x''
+    (a nil value)'
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:-- this is comment
+x = 11
+y = 12
+z = x + y
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x + y
+INFO:root:- error: '[string "return x + y"]:1: attempt to perform arithmetic on global ''x''
+    (a nil value)'
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:z
+INFO:root:- null
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x = 11
+y = 12
+z = x + y
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x + y
+INFO:root:- 23
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x = 11
+y = 12
+x + y
+INFO:root:- error: '[string "x = 11 y = 12 x + y"]:1: ''='' expected near ''+'''
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x = 11
+y = 12
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x + y
+INFO:root:- 23
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a=1
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sqr(x)
+    return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a = 2
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sqr(a)
+INFO:root:- 4
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:help
+INFO:root:- - To get help, see the Tarantool manual at http://tarantool.org/doc/
+  - To start the interactive Tarantool tutorial, type 'tutorial()'
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a
+INFO:root:- 2
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x = 11
+y = 12
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:x + y
+INFO:root:- 23
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:z
+INFO:root:- 23
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:-- cmm
+xx = 11
+yy = 12
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:xx + yy
+INFO:root:- 23
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s = box.schema.space.create('hello', {if_not_exists=true})
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s = box.schema.space.create('hello', {if_not_exists=true})
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:format {
+    {name = 'id', type = 'unsigned'},
+    {name = 'band_name', type = 'string'},
+    {name = 'year', type = 'unsigned'}
+}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('primary', {
+    type = 'hash',
+    parts = {'id'}
+    }
+)
+INFO:root:- unique: true
+  parts:
+  - type: unsigned
+    is_nullable: false
+    fieldno: 1
+  id: 0
+  space_id: 515
+  name: primary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:insert{1, 'Roxette', 1986}
+s:insert{2, 'Scorpions', 2015}
+s:insert{3, 'Ace of Base', 1993}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result = s:select{1}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result
+INFO:root:- - [1, 'Roxette', 1986]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:drop()
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester')
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+INFO:root:- error: Space 'tester' already exists
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester',{if_not_exists=true})
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+INFO:root:- error: Index 'primary' already exists
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester',{if_not_exists=true})
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }}, {if_not_exists=true})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+INFO:root:- error: Index 'primary' already exists
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp = box.schema.space.create('tester',{if_not_exists=true})
+sp:drop()
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:
+-- Создать спейс под названием tester.
+sp = box.schema.space.create('tester',{if_not_exists=true})
+-- Создать уникальный индекс 'primary'
+-- который не будет нужен для данного примера..
+
+sp:create_index('primary', {parts = {1, 'unsigned' }}, {if_not_exists=true})
+-- Создать неуникальный индекс 'secondary'
+-- по второму полю.
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+-- Вставить три кортежа, значения в поле2 field[2]
+-- равны 'X', 'Y' и 'Z'.
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+-- Выбрать все кортежи, где вторичные ключи
+-- больше, чем 'X'.
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp
+INFO:root:- engine: memtx
+  before_replace: 'function: 0x01037fdda8'
+  on_replace: 'function: 0x010367c838'
+  field_count: 0
+  temporary: false
+  index:
+    0: &0
+      unique: true
+      parts:
+      - type: unsigned
+        is_nullable: false
+        fieldno: 1
+      id: 0
+      space_id: 516
+      name: primary
+      type: TREE
+    1: &1
+      unique: false
+      parts:
+      - type: string
+        is_nullable: false
+        fieldno: 2
+      id: 1
+      space_id: 516
+      name: secondary
+      type: TREE
+    primary: *0
+    secondary: *1
+  is_local: false
+  enabled: true
+  name: tester
+  id: 516
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sp = box.schema.space.create('tester', {if_not_exists=true})
+sp:create_index('primary', {parts = {1, 'unsigned' }})
+sp:create_index('secondary', {
+          type = 'tree',
+          unique = false,
+          parts = {2, 'string'}
+          })
+sp:insert{1, 'X', 'Row with field[2]=X'}
+sp:insert{2, 'Y', 'Row with field[2]=Y'}
+sp:insert{3, 'Z', 'Row with field[2]=Z'}
+
+INFO:root:- error: Index 'primary' already exists
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result2 = sp.index.secondary:select({'X'}, {
+          iterator = 'GE',
+          limit = 1000
+          })
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result2
+INFO:root:- - [1, 'X', 'Row with field[2]=X']
+  - [2, 'Y', 'Row with field[2]=Y']
+  - [3, 'Z', 'Row with field[2]=Z']
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result = sp.index.secondary:select({'X'}, {
+          iterator = 'GE',
+          limit = 1000
+          })
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:result
+INFO:root:- - [1, 'X', 'Row with field[2]=X']
+  - [2, 'Y', 'Row with field[2]=Y']
+  - [3, 'Z', 'Row with field[2]=Z']
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:a
+INFO:root:- 2
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sq(x)
+return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sq(2)
+INFO:root:- 4
