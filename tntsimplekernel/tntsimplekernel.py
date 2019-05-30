@@ -1,13 +1,10 @@
 import logging
-
-
 import socket
 from ipykernel.kernelbase import Kernel
 
 from .config import CHUNK_LENGTH, HOST, PORT
-from .utils import TNTCodeParser
 
-logging.basicConfig(filename="tnt1.log", level=logging.INFO)
+logging.basicConfig(filename="tarantool_kernel.log", level=logging.INFO)
 
 
 def parse_response(response: str) -> str:

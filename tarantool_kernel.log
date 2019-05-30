@@ -1,0 +1,236 @@
+INFO:root:First screen start
+INFO:root:First screen end
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s = box.schema.space.create('tester')
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:format({
+    {name = 'id', type = 'unsigned'},
+    {name = 'band_name', type = 'string'},
+    {name = 'year', type = 'unsigned'}
+})
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('primary', {
+    type = 'hash',
+    parts = {'id'}
+})
+INFO:root:- unique: true
+  parts:
+  - type: unsigned
+    is_nullable: false
+    fieldno: 1
+  id: 0
+  space_id: 522
+  name: primary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:insert{1, 'Roxette', 1986}
+s:insert{2, 'Scorpions', 2015}
+s:insert{3, 'Ace of Base', 1993}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:select{2}
+INFO:root:- - [2, 'Scorpions', 2015]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('secondary', {
+    type = 'hash',
+    parts = {'band_name'}
+})
+INFO:root:- unique: true
+  parts:
+  - type: string
+    is_nullable: false
+    fieldno: 2
+  id: 1
+  space_id: 522
+  name: secondary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s.index.secondary:select{'Roxette'}
+INFO:root:- - [1, 'Roxette', 1986]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:drop()
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sqr(x)
+    return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sqr(4)
+INFO:root:- 16
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:print('xxx')
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sqr(4)
+INFO:root:- 16
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:drop()
+INFO:root:- error: Space 'tester' does not exist
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:select{2}
+INFO:root:- error: 'No index #0 is defined in space ''tester'''
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s = box.schema.space.create('tester')
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:format({
+    {name = 'id', type = 'unsigned'},
+    {name = 'band_name', type = 'string'},
+    {name = 'year', type = 'unsigned'}
+})
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('primary', {
+    type = 'hash',
+    parts = {'id'}
+})
+INFO:root:- unique: true
+  parts:
+  - type: unsigned
+    is_nullable: false
+    fieldno: 1
+  id: 0
+  space_id: 523
+  name: primary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:insert{1, 'Roxette', 1986}
+s:insert{2, 'Scorpions', 2015}
+s:insert{3, 'Ace of Base', 1993}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:select{2}
+INFO:root:- - [2, 'Scorpions', 2015]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('secondary', {
+    type = 'hash',
+    parts = {'band_name'}
+})
+INFO:root:- unique: true
+  parts:
+  - type: string
+    is_nullable: false
+    fieldno: 2
+  id: 1
+  space_id: 523
+  name: secondary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s.index.secondary:select{'Roxette'}
+INFO:root:- - [1, 'Roxette', 1986]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:drop()
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sqr(x)
+    return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sqr(4)
+INFO:root:- 16
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:print('xxx')
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s = box.schema.space.create('tester')
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:format({
+    {name = 'id', type = 'unsigned'},
+    {name = 'band_name', type = 'string'},
+    {name = 'year', type = 'unsigned'}
+})
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('primary', {
+    type = 'hash',
+    parts = {'id'}
+})
+INFO:root:- unique: true
+  parts:
+  - type: unsigned
+    is_nullable: false
+    fieldno: 1
+  id: 0
+  space_id: 524
+  name: primary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:insert{1, 'Roxette', 1986}
+s:insert{2, 'Scorpions', 2015}
+s:insert{3, 'Ace of Base', 1993}
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:select{2}
+INFO:root:- - [2, 'Scorpions', 2015]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:create_index('secondary', {
+    type = 'hash',
+    parts = {'band_name'}
+})
+INFO:root:- unique: true
+  parts:
+  - type: string
+    is_nullable: false
+    fieldno: 2
+  id: 1
+  space_id: 524
+  name: secondary
+  type: HASH
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s.index.secondary:select{'Roxette'}
+INFO:root:- - [1, 'Roxette', 1986]
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:s:drop()
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:function sqr(x)
+    return x ^ 2
+end
+INFO:root:
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:sqr(5)
+INFO:root:- 25
+INFO:root:do_execute
+INFO:root:code:
+INFO:root:print('xxx')
+INFO:root:

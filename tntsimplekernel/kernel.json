@@ -1,5 +1,5 @@
 {"argv":["python3","-m","tntsimplekernel", "-f", "{connection_file}"],
- "display_name":"TNTSimple",
+ "display_name":"Tarantool",
   "language":"lua",
   "mimetype":"text/x-lua"
 }
